@@ -55,7 +55,7 @@ const gameBoard = (() => {
         cellDOM.textContent = cell.sign;
 
         cellDOM.addEventListener('click', () => {
-            if (cell.sign == '') {
+            if (gameLogic.finishedGame == false && cell.sign == '') {
                 gameLogic.playRound(cell);
                 gameLogic.checkWin();
                 render();
@@ -70,7 +70,7 @@ const gameBoard = (() => {
             cells.splice(0, cells.length);
             createCells();
             render();
-            document.querySelector('#winner').textContent = ''
+            document.querySelector('#winner').textContent = '';
         })
     }
 
@@ -89,6 +89,8 @@ const gameLogic = (() => {
     const playerX = player('X');
     const playerO = player('O');
     const players = [playerX, playerO];
+
+    let finishedGame = false;
 
     let round = 1;
 
@@ -119,6 +121,7 @@ const gameLogic = (() => {
             for (let i = 0; i <= 1; i++) {
                 if (cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign) {
                     document.querySelector('#winner').textContent = `${players[i].sign} wins`;
+                    finishedGame = true;
                 }
             }
         })
@@ -126,7 +129,10 @@ const gameLogic = (() => {
 
     return {
         playRound,
-        checkWin
+        checkWin,
+        get finishedGame() {
+            return finishedGame;
+        }
     }
 })();
 
