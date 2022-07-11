@@ -42,8 +42,8 @@ const gameBoard = (() => {
         const cell = document.querySelectorAll('.cell');
         const info = document.querySelector('#info');
 
-        gameLogic.finishedGame ? info.textContent = `${gameLogic.winner} wins!` : info.textContent = `${gameLogic.playerTurn()}'s turn`;
-        
+        gameLogic.finishedGame ? info.textContent = `${gameLogic.winner} ${gameLogic.winner != 'Tie' ? 'wins!' : 'game'}` : info.textContent = `${gameLogic.playerTurn()}'s turn`;
+
         cell.forEach(cell => grid.removeChild(cell));
 
         cells.forEach(cell => createGrid(cell));
@@ -60,6 +60,7 @@ const gameBoard = (() => {
 
         cellDOM.addEventListener('click', () => {
             if (gameLogic.finishedGame == false && cell.sign == '') {
+                gameLogic.checkWin();
                 gameLogic.playRound(cell);
                 gameLogic.checkWin();
                 render();
@@ -72,7 +73,7 @@ const gameBoard = (() => {
     const restart = () => {
         document.querySelector('#restart').addEventListener('click', () => {
             cells.splice(0, cells.length);
-            gameLogic.round = 1;
+            gameLogic.round = 0;
             gameLogic.finishedGame = false;
             createCells();
             render();
@@ -98,7 +99,7 @@ const gameLogic = (() => {
 
     let finishedGame = false;
 
-    let round = 1;
+    let round = 0;
 
     const playRound = (cell) => {
         cell.sign = playerTurn();
@@ -106,10 +107,19 @@ const gameLogic = (() => {
     }
 
     const playerTurn = () => {
-        return round % 2 == 1 ? playerX.sign : playerO.sign;
+        return round % 2 == 1 ? playerO.sign : playerX.sign;
     }
 
     const checkWin = () => {
+        checkWinner();
+        if (round == 9) {
+            finishedGame = true;
+            winner = 'Tie';
+            checkWinner();
+        }
+    }
+
+    const checkWinner = () => {
         const cells = gameBoard.cells;
 
         const winCon = [
@@ -126,8 +136,9 @@ const gameLogic = (() => {
         winCon.forEach(index => {
             for (let i = 0; i <= 1; i++) {
                 if (cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign) {
-                    finishedGame = true;     
+                    finishedGame = true;
                     winner = players[i].sign;
+                    break;
                 }
             }
         })
