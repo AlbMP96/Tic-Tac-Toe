@@ -15,7 +15,6 @@ const cell = (sign) => {
         get sign() {
             return cellSign;
         },
-
         set sign(sign) {
             cellSign = sign
         }
@@ -24,7 +23,6 @@ const cell = (sign) => {
 }
 
 const gameBoard = (() => {
-
     let cells = [];
 
     const createCells = () => {
@@ -60,9 +58,9 @@ const gameBoard = (() => {
 
         cellDOM.addEventListener('click', () => {
             if (gameLogic.finishedGame == false && cell.sign == '') {
-                gameLogic.checkWin();
+                gameLogic.checkResult();
                 gameLogic.playRound(cell);
-                gameLogic.checkWin();
+                gameLogic.checkResult();
                 render();
             }
         });
@@ -110,7 +108,7 @@ const gameLogic = (() => {
         return round % 2 == 1 ? playerO.sign : playerX.sign;
     }
 
-    const checkWin = () => {
+    const checkResult = () => {
         checkWinner();
         if (round == 9) {
             finishedGame = true;
@@ -138,7 +136,6 @@ const gameLogic = (() => {
                 if (cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign) {
                     finishedGame = true;
                     winner = players[i].sign;
-                    break;
                 }
             }
         })
@@ -146,7 +143,7 @@ const gameLogic = (() => {
 
     return {
         playRound,
-        checkWin,
+        checkResult,
         playerTurn,
         get finishedGame() {
             return finishedGame;
