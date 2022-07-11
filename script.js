@@ -40,6 +40,10 @@ const gameBoard = (() => {
     const render = () => {
         const grid = document.querySelector('#grid');
         const cell = document.querySelectorAll('.cell');
+        const info = document.querySelector('#info');
+
+        gameLogic.finishedGame ? info.textContent = `${gameLogic.winner} wins` : info.textContent = `${gameLogic.playerTurn()}'s turn`;
+        
         cell.forEach(cell => grid.removeChild(cell));
 
         cells.forEach(cell => createGrid(cell));
@@ -72,7 +76,6 @@ const gameBoard = (() => {
             gameLogic.finishedGame = false;
             createCells();
             render();
-            document.querySelector('#winner').textContent = '';
         })
     }
 
@@ -91,6 +94,7 @@ const gameLogic = (() => {
     const playerX = player('X');
     const playerO = player('O');
     const players = [playerX, playerO];
+    let winner;
 
     let finishedGame = false;
 
@@ -102,7 +106,7 @@ const gameLogic = (() => {
     }
 
     const playerTurn = () => {
-        return round % 2 === 1 ? playerX.sign : playerO.sign;
+        return round % 2 == 1 ? playerX.sign : playerO.sign;
     }
 
     const checkWin = () => {
@@ -122,8 +126,8 @@ const gameLogic = (() => {
         winCon.forEach(index => {
             for (let i = 0; i <= 1; i++) {
                 if (cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign) {
-                    document.querySelector('#winner').textContent = `${players[i].sign} wins`;
-                    finishedGame = true;
+                    finishedGame = true;     
+                    winner = players[i].sign;
                 }
             }
         })
@@ -132,6 +136,7 @@ const gameLogic = (() => {
     return {
         playRound,
         checkWin,
+        playerTurn,
         get finishedGame() {
             return finishedGame;
         },
@@ -140,6 +145,9 @@ const gameLogic = (() => {
         },
         set round(setRound) {
             round = setRound;
+        },
+        get winner() {
+            return winner;
         }
     }
 })();

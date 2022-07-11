@@ -1,15 +1,5 @@
-body {
-    text-align: center;
-    background-color: rgb(221, 221, 221);
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap');
 
-    #winner {
-        min-height: 3rem;
-    }
 
-    #restart {
-        cursor: pointer;
-        margin: 20px;
-    }
-}
-
+@import './body';
 @import './grid';
