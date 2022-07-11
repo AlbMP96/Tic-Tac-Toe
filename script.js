@@ -42,7 +42,7 @@ const gameBoard = (() => {
         const cell = document.querySelectorAll('.cell');
         const info = document.querySelector('#info');
 
-        gameLogic.finishedGame ? info.textContent = `${gameLogic.winner} wins` : info.textContent = `${gameLogic.playerTurn()}'s turn`;
+        gameLogic.finishedGame ? info.textContent = `${gameLogic.winner} wins!` : info.textContent = `${gameLogic.playerTurn()}'s turn`;
         
         cell.forEach(cell => grid.removeChild(cell));
 

@@ -1,11 +1,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@700&display=swap");
 body {
+  margin: 0;
   font-family: "Open Sans", sans-serif;
   text-align: center;
-  background-color: rgb(221, 221, 221);
+  background-color: rgb(163, 163, 163);
 }
-body #winner {
-  min-height: 3rem;
+body h1 {
+  margin-top: 0;
+  padding: 5px;
+  font-size: 3rem;
+  background-color: rgb(39, 75, 72);
+  color: rgb(113, 220, 224);
+  box-shadow: 0px 0px 0px 5px rgb(0, 136, 106) inset;
+}
+body #info {
+  color: rgb(59, 59, 59);
+  font-size: 2rem;
 }
 body #restart {
   cursor: pointer;
@@ -16,6 +26,7 @@ body #restart {
   color: white;
   border-radius: 25px;
   border: none;
+  box-shadow: 0px 0px 0px 2px black inset;
 }
 body #restart:hover {
   background-color: rgb(0, 163, 163);
@@ -32,7 +43,7 @@ body #restart:active {
   height: 600px;
 }
 #grid .cell {
-  background-color: white;
+  background-color: rgb(233, 233, 233);
   border-left: 1px solid black;
   border-top: 1px solid black;
   display: flex;
@@ -41,11 +52,13 @@ body #restart:active {
   flex-direction: column;
   width: 200px;
   height: 200px;
+  color: rgb(59, 59, 59);
   font-size: 5rem;
+  user-select: none;
   cursor: pointer;
 }
 #grid .cell:hover {
-  background-color: rgb(163, 163, 163);
+  background-color: rgb(107, 107, 107);
 }
 #grid #cell-2, #grid #cell-5, #grid #cell-8 {
   border-right: 1px solid black;
@@ -54,7 +67,7 @@ body #restart:active {
   border-bottom: 1px solid black;
 }
 
-@media only screen and (max-width: 600px), (max-height: 825px) {
+@media only screen and (max-width: 600px), (max-height: 850px) {
   #grid {
     width: 300px;
     height: 300px;

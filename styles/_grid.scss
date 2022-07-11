@@ -7,7 +7,7 @@
     height: 600px;
 
     .cell {
-        background-color: white;
+        background-color: rgb(233, 233, 233);
         border-left: 1px solid black;
         border-top: 1px solid black;
 
@@ -19,12 +19,13 @@
         width: 200px;
         height: 200px;
 
+        color: rgb(59, 59, 59);
         font-size: 5rem;
-
+        user-select: none;
         cursor: pointer;
 
         &:hover {
-            background-color: rgb(163, 163, 163);
+            background-color: rgb(107, 107, 107);
         }
     }
 
@@ -37,7 +38,7 @@
     }
 }
 
-@media only screen and (max-width: 600px), (max-height: 825px) {
+@media only screen and (max-width: 600px), (max-height: 850px) {
     #grid {
         width: 300px;
         height: 300px;
