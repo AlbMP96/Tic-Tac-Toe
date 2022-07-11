@@ -1,1 +1,15 @@
+body {
+    text-align: center;
+    background-color: rgb(221, 221, 221);
+
+    #winner {
+        min-height: 3rem;
+    }
+
+    #restart {
+        cursor: pointer;
+        margin: 20px;
+    }
+}
+
 @import './grid';

@@ -50,7 +50,7 @@ const gameBoard = (() => {
         const cellDOM = document.createElement('div');
 
         cellDOM.classList.add('cell');
-        cellDOM.setAttribute('id', cells.indexOf(cell));
+        cellDOM.setAttribute('id', `cell-${cells.indexOf(cell)}`);
 
         cellDOM.textContent = cell.sign;
 
@@ -64,6 +64,17 @@ const gameBoard = (() => {
 
         grid.appendChild(cellDOM);
     }
+
+    const restart = () => {
+        document.querySelector('#restart').addEventListener('click', () => {
+            cells.splice(0, cells.length);
+            createCells();
+            render();
+            document.querySelector('#winner').textContent = ''
+        })
+    }
+
+    restart();
 
     return {
         render,
@@ -106,15 +117,12 @@ const gameLogic = (() => {
 
         winCon.forEach(index => {
             for (let i = 0; i <= 1; i++) {
-                if ((cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign)) {
-                    document.querySelector('h1').textContent = `${players[i].sign} wins`;
-                    console.log(cells[index[0]].sign, cells[index[1]].sign, cells[index[2]].sign);
-                    console.log(index)
+                if (cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign) {
+                    document.querySelector('#winner').textContent = `${players[i].sign} wins`;
                 }
             }
         })
     }
-
 
     return {
         playRound,
