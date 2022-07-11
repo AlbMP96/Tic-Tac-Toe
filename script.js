@@ -68,6 +68,8 @@ const gameBoard = (() => {
     const restart = () => {
         document.querySelector('#restart').addEventListener('click', () => {
             cells.splice(0, cells.length);
+            gameLogic.round = 1;
+            gameLogic.finishedGame = false;
             createCells();
             render();
             document.querySelector('#winner').textContent = '';
@@ -132,6 +134,12 @@ const gameLogic = (() => {
         checkWin,
         get finishedGame() {
             return finishedGame;
+        },
+        set finishedGame(finish) {
+            finishedGame = finish
+        },
+        set round(setRound) {
+            round = setRound;
         }
     }
 })();
