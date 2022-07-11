@@ -1,12 +1,49 @@
 const player = (sign) => {
-    const getSign = () => sign;
+    let playerSign = sign
 
-    return {getSign}
+    return {
+        get sign() {
+            return playerSign;
+        }
+    }
+}
+
+const cell = (sign) => {
+    let cellSign = sign;
+
+    return {
+        get sign() {
+            return cellSign;
+        },
+
+        set sign(sign) {
+            cellSign = sign
+        }
+
+    }
 }
 
 const gameBoard = (() => {
 
     let cells = [];
+
+    const createCells = () => {
+        for (let i = 1; i <= 9; i++) {
+            const cellObj = cell('');
+
+            cells.push(cellObj);
+        }
+    }
+
+    createCells();
+
+    const render = () => {
+        const grid = document.querySelector('#grid');
+        const cell = document.querySelectorAll('.cell');
+        cell.forEach(cell => grid.removeChild(cell));
+
+        cells.forEach(cell => createGrid(cell));
+    }
 
     const createGrid = (cell) => {
         const grid = document.querySelector('#grid');
@@ -15,21 +52,74 @@ const gameBoard = (() => {
         cellDOM.classList.add('cell');
         cellDOM.setAttribute('id', cells.indexOf(cell));
 
+        cellDOM.textContent = cell.sign;
+
+        cellDOM.addEventListener('click', () => {
+            if (cell.sign == '') {
+                gameLogic.playRound(cell);
+                gameLogic.checkWin();
+                render();
+            }
+        });
+
         grid.appendChild(cellDOM);
     }
 
-    const render = () => {
-
-        for (let i = 1; i <= 9; i++) {
-            cells.push('');
+    return {
+        render,
+        get cells() {
+            return cells;
         }
-
-        cells.forEach(cell => createGrid(cell));
     }
 
+})();
+
+const gameLogic = (() => {
+    const playerX = player('X');
+    const playerO = player('O');
+    const players = [playerX, playerO];
+
+    let round = 1;
+
+    const playRound = (cell) => {
+        cell.sign = playerTurn();
+        round++;
+    }
+
+    const playerTurn = () => {
+        return round % 2 === 1 ? playerX.sign : playerO.sign;
+    }
+
+    const checkWin = () => {
+        const cells = gameBoard.cells;
+
+        const winCon = [
+            [0, 1, 2],
+            [3, 4, 5],
+            [6, 7, 8],
+            [0, 4, 8],
+            [2, 4, 6],
+            [0, 3, 6],
+            [1, 4, 7],
+            [2, 5, 8]
+        ];
+
+        winCon.forEach(index => {
+            for (let i = 0; i <= 1; i++) {
+                if ((cells[index[0]].sign == players[i].sign && cells[index[1]].sign == players[i].sign && cells[index[2]].sign == players[i].sign)) {
+                    document.querySelector('h1').textContent = `${players[i].sign} wins`;
+                    console.log(cells[index[0]].sign, cells[index[1]].sign, cells[index[2]].sign);
+                    console.log(index)
+                }
+            }
+        })
+    }
+
+
     return {
-        render
-    };
+        playRound,
+        checkWin
+    }
 })();
 
 gameBoard.render();
